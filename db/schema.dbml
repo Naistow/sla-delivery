@@ -1,0 +1,40 @@
+// ER-диаграмма для dbdiagram.io (Тема 11: Контроль соблюдения SLA по доставке)
+
+Table delivery_zone {
+  id int [pk, increment]
+  code nvarchar(32) [unique, not null, note: 'Естественный ключ зоны из 1С (например, Z-CENTER)']
+  name nvarchar(128) [not null, note: 'Наименование зоны доставки']
+  sla_target_min int [not null, note: 'Плановый норматив доставки SLA (мин)']
+  max_delay_min int [not null, note: 'Порог критического опоздания для алерта (мин)']
+}
+
+Table shipment_event {
+  id bigint [pk, increment]
+  order_no nvarchar(32) [not null, note: 'Номер заказа доставки']
+  zone_id int [not null, ref: > delivery_zone.id]
+  courier_code nvarchar(32) [not null, note: 'Код курьера или экипажа']
+  planned_min float [not null, note: 'Плановое время доставки (мин)']
+  actual_min float [not null, note: 'Фактическое время доставки (мин)']
+  delay_min float [not null, note: 'Отклонение от SLA в минутах (>0 при опоздании)']
+  distance_km float [not null, note: 'Пробег по маршруту (км)']
+  sla_met bit [not null, note: '1 - доставлено в срок, 0 - нарушение SLA']
+  delivered_at datetime2 [not null, note: 'Метка времени завершения доставки (UTC)']
+}
+
+Table sla_alert {
+  id bigint [pk, increment]
+  shipment_id bigint [not null, ref: > shipment_event.id]
+  zone_code nvarchar(32) [not null]
+  severity nvarchar(16) [not null, note: 'WARNING или CRITICAL']
+  alert_message nvarchar(256) [not null]
+  created_at datetime2 [not null]
+}
+
+Table rejected_event {
+  id bigint [pk, increment]
+  order_no nvarchar(32) [not null]
+  zone_code nvarchar(32) [not null]
+  raw_value nvarchar(128) [not null]
+  delivered_at datetime2 [not null]
+  reason nvarchar(256) [not null]
+}
