@@ -59,3 +59,5 @@ GO
 -- ALTER DATABASE sla_delivery SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 -- RESTORE DATABASE sla_delivery FROM DISK = N'/var/opt/mssql/data/sla_delivery.bak' WITH REPLACE;
 -- ALTER DATABASE sla_delivery SET MULTI_USER;
+
+-- Проверено на SQL Server 2022 Express
