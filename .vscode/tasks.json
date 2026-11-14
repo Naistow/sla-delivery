@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Запустить всё (сквозной сценарий SLA)",
+      "type": "shell",
+      "command": "docker compose up --build --abort-on-container-exit",
+      "group": "build"
+    },
+    {
+      "label": "Остановить всё",
+      "type": "shell",
+      "command": "docker compose down"
+    },
+    {
+      "label": "Тесты",
+      "type": "shell",
+      "command": "docker compose run --rm --no-deps app pytest -v",
+      "group": "test"
+    },
+    {
+      "label": "Линтер",
+      "type": "shell",
+      "command": "docker compose run --rm --no-deps app flake8 app integration tests --max-line-length=120"
+    },
+    {
+      "label": "Агрегация SLA и выгрузка сводки для 1С",
+      "type": "shell",
+      "command": "docker compose run --rm app python -m app.main export1c"
+    },
+    {
+      "label": "Импорт зон доставки из 1С",
+      "type": "shell",
+      "command": "docker compose run --rm app python -m app.main import1c"
+    }
+  ]
+}
