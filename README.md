@@ -131,3 +131,8 @@ sla_delivery_project/
 2. `dbo.shipment_event` — принятые события доставки (`order_no`, `zone_id` FK, `planned_min`, `actual_min`, `delay_min`, `sla_met`, `delivered_at`).
 3. `dbo.sla_alert` — сработавшие алерты при нарушении SLA (`shipment_id` FK, `zone_code`, `severity`, `alert_message`, `created_at`).
 4. `dbo.rejected_event` — отклонённые записи с указанием причины (`order_no`, `zone_code`, `raw_value`, `delivered_at`, `reason`).
+
+## ���-��������� FastAPI
+- `GET /dashboard` � HTML-������� SLA
+- `GET /alerts` � ����� �������
+
