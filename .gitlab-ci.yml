@@ -1,0 +1,22 @@
+stages:
+  - lint
+  - test
+
+default:
+  image: python:3.12-slim
+  before_script:
+    - pip install --no-cache-dir -r requirements.txt
+
+lint:
+  stage: lint
+  script:
+    - flake8 app integration tests --max-line-length=120
+
+unit-tests:
+  stage: test
+  script:
+    - pytest -v --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
