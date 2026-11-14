@@ -119,7 +119,8 @@ def cmd_ingest(count: int, seed: int) -> None:
 
             cur.execute(
                 "INSERT INTO dbo.shipment_event "
-                "(order_no, zone_id, courier_code, planned_min, actual_min, delay_min, distance_km, sla_met, delivered_at) "
+                "(order_no, zone_id, courier_code, planned_min, actual_min,"
+                "delay_min, distance_km, sla_met, delivered_at) "
                 "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
                 (
                     order_no,

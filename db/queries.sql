@@ -48,7 +48,7 @@ SELECT
     zone_code,
     raw_value,
     reason,
-    rejected_at
+    delivered_at
 FROM dbo.rejected_event
 WHERE delivered_at >= DATEADD(HOUR, -24, SYSDATETIME())
 ORDER BY id DESC;
